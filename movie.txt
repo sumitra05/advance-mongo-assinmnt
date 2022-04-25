@@ -1,0 +1,208 @@
+> use test
+switched to db test
+
+> db.createCollection("movies")
+{ "ok" : 1 }
+
+> show collections
+movies
+
+
+<-------------------find all movies which are equal to movie_name-------------------------->
+
+db.movies.find({movie_name:{$eq:"Lucky Lady"}}).pretty()
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf21"),
+        "id" : 4,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a0002f5"),
+        "movie_name" : "Lucky Lady",
+        "movie_genre" : "Comedy|Drama",
+        "production_year" : 2003,
+        "budget" : 773
+}
+
+
+<---------------------------find all movies which are not equal to movie_name-------------------------->
+
+ db.movies.find({move_name:{$ne:"Lucky Lady"}}).pretty()
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf1e"),
+        "id" : 1,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a0002f2"),
+        "movie_name" : "Leningrad Cowboys Go America",
+        "movie_genre" : "Comedy|Musical",
+        "production_year" : 1988,
+        "budget" : 956
+}
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf1f"),
+        "id" : 2,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a0002f3"),
+        "movie_name" : "Journey, The (El viaje)",
+        "movie_genre" : "Drama",
+        "production_year" : 2011,
+        "budget" : 1627
+}
+
+
+
+<-----------------------find all movies greater than and greater than equal to a budget-------------------->
+
+db.movies.find({budget:{$gte:1000}}).pretty()
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf1f"),
+        "id" : 2,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a0002f3"),
+        "movie_name" : "Journey, The (El viaje)",
+        "movie_genre" : "Drama",
+        "production_year" : 2011,
+        "budget" : 1627
+}
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf20"),
+        "id" : 3,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a0002f4"),
+        "movie_name" : "Paranormal Activity",
+        "movie_genre" : "Horror|Thriller",
+        "production_year" : 1999,
+        "budget" : 1430
+}
+
+<----------------------find all movies less than and less than equal to a budget----------->
+
+db.movies.find({budget:{$lte:800}}).pretty()
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf21"),
+        "id" : 4,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a0002f5"),
+        "movie_name" : "Lucky Lady",
+        "movie_genre" : "Comedy|Drama",
+        "production_year" : 2003,
+        "budget" : 773
+}
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf29"),
+        "id" : 12,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a0002fd"),
+        "movie_name" : "Zhou Yu's Train (Zhou Yu de huo che)",
+        "movie_genre" : "Drama|Romance",
+        "production_year" : 2007,
+        "budget" : 567
+}
+
+
+<---------------find all movies that are produced after 2000 with budget greater than 1000--------->
+
+db.movies.find({$and:[{production_year:{$gt:2000}},{budget:{$gt:1000}}]}).pretty()
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf60"),
+        "id" : 67,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a000334"),
+        "movie_name" : "Santa Buddies",
+        "movie_genre" : "Adventure|Children",
+        "production_year" : 2011,
+        "budget" : 1533
+}
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf61"),
+        "id" : 68,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a000335"),
+        "movie_name" : "Beauty and the Bastard (Tyttö sinä olet tähti)",
+        "movie_genre" : "Drama|Musical|Romance",
+        "production_year" : 2010,
+        "budget" : 1171
+}
+
+<-----------find all movies that are produced after 2000 or budget greater than 10000------->
+
+db.movies.find({$or:[{production_year:{$gt:2000}},{budget:{$gt:10000}}]}).pretty()
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf4a"),
+        "id" : 45,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a00031e"),
+        "movie_name" : "Internecine Project, The",
+        "movie_genre" : "Action|Thriller",
+        "production_year" : 2010,
+        "budget" : 655
+}
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf4b"),
+        "id" : 46,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a00031f"),
+        "movie_name" : "Tyler Perry's Temptation: Confessions of a Marriage Counselor",
+        "movie_genre" : "Drama",
+        "production_year" : 2008,
+        "budget" : 1778
+}
+
+<---------------find all movies that are neither produced after 2000 nor with budget greater than 10000--------->
+
+db.movies.find({$nor:[{production_year:{$gt:2000}},{budget:{$gt:10000}}]}).pretty()
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf39"),
+        "id" : 28,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a00030d"),
+        "movie_name" : "Royal Flash",
+        "movie_genre" : "Adventure|Comedy|Romance",
+        "production_year" : 1990,
+        "budget" : 1909
+}
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf3d"),
+        "id" : 32,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a000311"),
+        "movie_name" : "Night of the Ghouls",
+        "movie_genre" : "Horror",
+        "production_year" : 1983,
+        "budget" : 1462
+}
+
+<-------find all movies that are not produced in 2000 or they do not have budget of 10000------>
+db.movies.find({$or:[{production_year:{$ne:2000}},{budget:{$ne:10000}}]}).pretty()
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf30"),
+        "id" : 19,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a000304"),
+        "movie_name" : "Home",
+        "movie_genre" : "Animation|Children|Comedy|Fantasy|Sci-Fi",
+        "production_year" : 2001,
+        "budget" : 1838
+}
+{
+        "_id" : ObjectId("6263b714e309538a8da9bf31"),
+        "id" : 20,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a000305"),
+        "movie_name" : "Jew Süss (Jud Süß)",
+        "movie_genre" : "Drama",
+        "production_year" : 1998,
+        "budget" : 1042
+}
+
+<------------find all movies that were produced from 2000 to 2010----------->
+db.movies.find({"production_year": {$gte: 2000, $lte: 2010]}}).pretty()
+{
+        "_id" : ObjectId("6263b714e309538a8da9bfc4"),
+        "id" : 167,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a000398"),
+        "movie_name" : "Dead Man Down",
+        "movie_genre" : "Action|Crime|Drama|Romance|Thriller",
+        "production_year" : 2000,
+        "budget" : 1950
+}
+{
+        "_id" : ObjectId("6263b714e309538a8da9bfcf"),
+        "id" : 178,
+        "movie_id" : ObjectId("62623e32fc13ae2a9a0003a3"),
+        "movie_name" : "Wise Blood",
+        "movie_genre" : "Comedy|Drama",
+        "production_year" : 2010,
+        "budget" : 536
+}
+
+
+<----------Sort all movies descending based on the production year and if the year is same then alphabetically for their movie_names---->
+db.movies.find({}, {"movie_name": 1, "production_year": 1, "_id": 0}).sort({"production_year": -1}).pretty()
+
+ 
+<----------in query 10 skip the first 10 entries and fetch the next 5 --------->
+ db.movies.find({}, {"movie_name": 1, "production_year": 1, "_id": 0}).skip(10).limit(5).pretty();
